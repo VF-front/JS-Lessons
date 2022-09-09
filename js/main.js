@@ -1,80 +1,60 @@
 /* Задание на урок:
-    1 Создать функцию showMyDB, которая будет проверять свойство privat. 
-    Если стоит в позиции false - выводить в консоль главный обьект программы
+    (*) Продвинутые задания на использование функций
 
-    2 Создать функцию writeYourGenres в которой пользователь будет 3 раза отвечать на вопрос "Ваш любимый жанр под номером ${номер по порядку}".
-    Каждый ответ записывается в массив данных genres.
+    Задачи:
 
-    P.S. Функции вызывать е обязательно
+    1) Создайте функцию, которая будет вычислять объем и площадь полной поверхности куба 
+    (тоже базовая математика, иногда используется в создании анимаций). 
+    Эта функция принимает в себя целое число со значением длины ребра куба. Ответ выведите в формате строки, который изображен в примерах.
+
+    Если в функцию попал неправильный аргумент или вычислить значения невозможно - вернуть строку "При вычислении произошла ошибка"
+
+    НЕ ИСПОЛЬЗУЙТЕ ОПЕРАТОР СТЕПЕНИ ** - в онлайн среде браузера он не работает и тесты будут ломаться. 
+    Это из-за того, что этот оператор из более нового стандарта, чем тут доступен.
+
+
+    2) Постепенно переходим к более реалистичным задачам :) Вы обнаружите, что там используется все тоже самое.
+
+    Напишите функцию, которая будет определять номер купе по переданному ей номеру места. Наглядно:
+    
+    Функция принимает только целое число от 1 до 36.
+
+    Если переданный аргумент не число, отрицательное или дробное - возвращается сообщение:
+
+    "Ошибка. Проверьте правильность введенного номера места"
+
+    Если число 0 или больше 36, то сообщение: "Таких мест в вагоне не существует"
 */
 
 'use strict';
 
-let numberOfFilms;
+function calculateVolumeAndArea(num) {
 
-function start() {
-    numberOfFilms = +prompt('Сколько фильмов вы уже посмотрели?', '');
+    let str = '';
+    let ob = num * num * num;
+    let pl = 6 * num * num;
 
-    while ( numberOfFilms == '' || numberOfFilms == null || isNaN(numberOfFilms) ) {
-        numberOfFilms = +prompt('Сколько фильмов вы уже посмотрели?', '');
-    }
-}
-
-start();
-
-const personalMovieDB = {
-    count: numberOfFilms,
-    movies: {},
-    actors: {},
-    genres: [],
-    privat: false
-}
-
-function rememberMyFilms() {
-    for (let i = 0; i < 2; i++) {
-        const a = prompt('Один из последних просмотренных фильмов', '');
-        const b = prompt('На сколько оцените его?', '');
-    
-        if (a != null && b != null && a != '' && b != '' && a != NaN && a.length < 50) {
-            personalMovieDB.movies[a] = b;
-            console.log('Done');
-        } else {
-            console.log('Error');
-            i--;
-        }
-    }
-}
-
-rememberMyFilms();
-
-function detectPersonalLevel() {
-    if ( personalMovieDB.count < 10 ) {
-        console.log('Просмотрено довольно мало фильмов');
-    } else if ( personalMovieDB.count >= 10 && personalMovieDB.count < 30) {
-        console.log('Вы классический зритель');
-    } else if ( personalMovieDB.count >= 30) {
-        console.log('Вы киноман');
+    if( num != null && num != '' && typeof num != 'string' && num > 0 && num % 1 == 0 ) {
+        str = `Объем куба: ${ob}, площадь всей поверхности: ${pl}`
     } else {
-        console.log('Произошла ошибка');
-    }
-}
-
-detectPersonalLevel();
-
-function writeYourGenres() {
-    
-    for (let i = 1; i <= 3; i++) {
-        personalMovieDB.genres.push(prompt(`Ваш любимый жанр под номером ${i}`, ''))
+        str = "При вычислении произошла ошибка";
     }
 
+    return str
+
 }
+// console.log(calculateVolumeAndArea(15.5));
 
-writeYourGenres();
+function getCoupeNumber(num) {
+    let str = Math.ceil(num / 4);
 
-function showMyDB(hidden) {
-    if (!hidden) {
-        console.log(personalMovieDB);
+    if ( typeof num !== 'number' || num < 0 || num % 1 != 0 ) {
+        str = "Ошибка. Проверьте правильность введенного номера места"
+    } else if (num == 0 || num > 35) {
+        str = "Таких мест в вагоне не существует";
     }
+
+    return str;
 }
 
-showMyDB(personalMovieDB.privat);
+console.log( getCoupeNumber(33) );
